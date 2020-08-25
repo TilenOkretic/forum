@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const {
+    checkAuthHeaderSetUser,
+    checkAuthHeaderSetUserUnAuthorized,
     notFound,
     errorHandler
 } = require('./middlewares/index');
@@ -20,6 +22,8 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(passport.initialize());
+
+app.use(checkAuthHeaderSetUser);
 
 //routes
 

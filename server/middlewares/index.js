@@ -1,3 +1,7 @@
+const {
+    verify
+} = require('../auth/utils');
+
 const error_types = {
     ValidationError: 422,
     UniqueViolationError: 409
@@ -5,6 +9,38 @@ const error_types = {
 
 const error_message = {
     UniqueViolationError: "Already exists."
+}
+
+async function checkAuthHeaderSetUser(req, res, next) {
+    const authrization = req.get('authorization');
+    if (authrization) {
+        const token = authrization.split(' ')[1];
+        try {
+            const usr = await verify(token);
+            req.user = usr;
+            console.log(usr);
+        } catch (error) {
+            console.error(error);
+
+        }
+    }
+    next();
+}
+
+async function checkAuthHeaderSetUserUnAuthorized(req, res, next) {
+    const authrization = req.get('authorization');
+    if (authrization) {
+        const token = authrization.split(' ')[1];
+        try {
+            const usr = await verify(token);
+            req.user = usr;
+            return next();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    res.status(401);
+    next(new Error('Un-Authorized'));
 }
 
 function notFound(req, res, next) {
@@ -27,4 +63,6 @@ function errorHandler(error, req, res, next) {
 module.exports = {
     notFound,
     errorHandler,
+    checkAuthHeaderSetUser,
+    checkAuthHeaderSetUserUnAuthorized
 };

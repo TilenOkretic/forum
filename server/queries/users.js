@@ -28,7 +28,8 @@ module.exports = {
             return Promise.reject(result.error);
         };
     },
-    update(id, user) {
-        return db(table_name).where('id', id).update(user);
+    async update(id, user) {
+        const rows = await db(table_name).where('id', id).update(user, '*');
+        return rows[0];
     }
 }

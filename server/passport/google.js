@@ -27,14 +27,19 @@ passport.use(new GoogleStrategy({
             role_id: 1
         }
 
-        let user = await users.findByEmail(email);
+        try {
+            let user = await users.findByEmail(email);
 
-        if (user) {
-            google_user.role_id = user.role_id;
-            user = await users.update(user.id, google_user);
-        } else {
-            user = await users.insert(google_user);
+            if (user) {
+                google_user.role_id = user.role_id;
+                user = await users.update(user.id, google_user);
+            } else {
+                user = await users.insert(google_user);
+            }
+
+            return cb(null, user);
+        } catch (error) {
+            return cb(error);
         }
-        return cb(null, user);
     }
 ));
