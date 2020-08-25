@@ -3,14 +3,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const users = require('../queries/users');
 
-
-passport.serializeUser((user, done) => {
-    done(null, user);
-});
-passport.deserializeUser((id, done) => {
-    done(null, id);
-});
-
 passport.use(new GoogleStrategy({
         clientID: '497897918115-3rfuobm87gkr1888n5jknfmn4mbo3oh4.apps.googleusercontent.com',
         clientSecret: 'A84GotlBCXZVrmYujbxefB3e',
