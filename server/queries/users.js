@@ -1,5 +1,8 @@
 const Joi = require('joi');
 const db = require('../db');
+const { insert_into_table_validate } = require('./index');
+const joi = require('joi');
+
 const table_name = 'users';
 
 
@@ -23,14 +26,8 @@ module.exports = {
     findByEmail(email) {
         return db(table_name).where('email', email).first();
     },
-    async insert(user) {
-        const result = schema.validate(user);
-        if (result.error == null) {
-            const rows = await db(table_name).insert(user, '*');
-            return rows[0];
-        } else {
-            return Promise.reject(result.error);
-        };
+    insert(user) {
+        return insert_into_table_validate(table_name, user, schema);
     },
     async update(id, user) {
         const rows = await db(table_name).where('id', id).update(user, '*');

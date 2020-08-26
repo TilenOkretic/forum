@@ -14,6 +14,7 @@ require('dotenv').config();
 const auth = require('./auth');
 
 const app = express();
+const api = require('./api');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/auth', auth);
+app.use('/api/v1', api);
 
 ////////
 app.use(notFound);
