@@ -45,7 +45,8 @@
       "linebreak-style": 0,
       "global-require": 0,
       "indent": "off",
-      "no-multiple-empty-lines": [2, {"max": 20}]
+      "no-multiple-empty-lines": [2, {"max": 20}],
+      "import/prefer-default-export": "off"
     }
   },
   "browserslist": [

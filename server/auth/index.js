@@ -7,6 +7,19 @@ const {
 
 const router = express.Router();
 
+router.get('isAdmin', async (req, res) => {
+    if (req.user) {
+        if (req.user.role_id === 1) {
+            res.json({
+                isAdmin: true
+            });
+        }
+    }
+    res.json({
+        isAdmin: false
+    });
+});
+
 router.get('/google',
     passport.authenticate('google', {
         scope: ['profile', 'email']
@@ -18,8 +31,8 @@ router.get('/google/callback', (req, res, next) => {
             return next(err);
         }
         try {
+            console.log('creating token with', user);
             const token = await create(user);
-            console.log();
             res.redirect(`${process.env.CLIENT_REDIRECT}${token}`);
         } catch (error) {
             res.redirect(`${process.env.CLIENT_ERROR_REDIRECT}${error.message}`);

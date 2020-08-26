@@ -3,6 +3,10 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const users = require('../queries/users');
 
+const {
+    setAdminIfNotExists
+} = require('../auth/utils');
+
 passport.use(new GoogleStrategy({
         clientID: '497897918115-3rfuobm87gkr1888n5jknfmn4mbo3oh4.apps.googleusercontent.com',
         clientSecret: 'A84GotlBCXZVrmYujbxefB3e',
@@ -16,7 +20,7 @@ passport.use(new GoogleStrategy({
             email,
             google_id: profile.id,
             img_url: profile.photos[0].value,
-            role_id: 1
+            role_id: 2
         }
 
         try {
@@ -26,6 +30,11 @@ passport.use(new GoogleStrategy({
                 google_user.role_id = user.role_id;
                 user = await users.update(user.id, google_user);
             } else {
+                const admins = await users.findAdmins();
+                if (admins.length === 0) {
+                    google_user.role_id = 1;
+                }
+                console.log('fist user', user);
                 user = await users.insert(google_user);
             }
 

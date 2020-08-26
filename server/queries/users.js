@@ -17,13 +17,17 @@ const schema = Joi.object().keys({
 
 
 module.exports = {
+    async findAdmins(){
+        return db(table_name).where('role_id', 1);
+    },
     findByEmail(email) {
         return db(table_name).where('email', email).first();
     },
-    insert(user) {
+    async insert(user) {
         const result = schema.validate(user);
         if (result.error == null) {
-            return db(table_name).insert(user);
+            const rows = await db(table_name).insert(user, '*');
+            return rows[0];
         } else {
             return Promise.reject(result.error);
         };
