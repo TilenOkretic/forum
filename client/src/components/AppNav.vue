@@ -4,10 +4,13 @@
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
         <li v-if="this.$route.path != '/'" class="nav-item">
-          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="#/forum">Home <span class="sr-only">(current)</span></a>
         </li>
         <li v-if="!user" class="nav-item">
           <a class="nav-link" :href="getLoginURL">LOGIN</a>
+        </li>
+        <li v-if="user && JSON.parse(user).role_id==1" class="nav-item">
+          <a class="nav-link" href="#/admin">ADMIN</a>
         </li>
       </ul>
     </div>
