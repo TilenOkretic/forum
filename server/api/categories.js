@@ -27,4 +27,17 @@ router.post('/', checkAuthHeaderSetUserUnAuthorized, isAdmin, async (req, res, n
     }
 });
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        const category = await categories.getByID(req.params.id);
+        if(category){
+            res.json(category);
+        }else{
+            next();
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = router;

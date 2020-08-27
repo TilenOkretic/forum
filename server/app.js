@@ -8,6 +8,7 @@ const {
     notFound,
     errorHandler
 } = require('./middlewares/index');
+const cors = require('cors');
 const passport = require('passport');
 
 require('dotenv').config();
@@ -22,6 +23,7 @@ app.use(express.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
+app.use(cors());
 app.use(passport.initialize());
 
 app.use(checkAuthHeaderSetUser);

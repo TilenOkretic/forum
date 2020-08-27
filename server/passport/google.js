@@ -31,6 +31,7 @@ passport.use(new GoogleStrategy({
                 user = await users.update(user.id, google_user);
             } else {
                 const admins = await users.findAdmins();
+                console.log(admins);
                 if (admins.length === 0) {
                     google_user.role_id = 1;
                 }

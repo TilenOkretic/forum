@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
+import Forum from '../views/Forum.vue';
+import Category from '../views/Category.vue';
 import LoginToken from '../views/LoginToken.vue';
 import Admin from '../views/Admin.vue';
 
@@ -17,6 +19,16 @@ const routes = [{
     path: '/login/token/:token',
     name: 'login-token',
     component: LoginToken,
+  },
+  {
+    path: '/category/:id',
+    name: 'category',
+    component: Category,
+  },
+  {
+    path: '/forum',
+    name: 'forum',
+    component: Forum,
   },
   {
     path: '/admin',

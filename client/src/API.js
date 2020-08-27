@@ -1,12 +1,32 @@
-
-let API_URL = 'https://t-forum-serverside.herokuapp.com';
+let BASE_URL = 'https://t-forum-serverside.herokuapp.com';
 if (window.location.hostname === 'localhost') {
-  API_URL = 'http://localhost:3000';
+  BASE_URL = 'http://localhost:3000';
 }
+
+const API_URL = `${BASE_URL}/api/v1`;
 
 /* eslint-disable import/prefer-default-export */
 
-export async function isAdmin() {
-  const respnse = await fetch(`${API_URL}/auth/isAdmin`);
-  return respnse.json();
+export async function getAllCategories() {
+  const respone = await fetch(`${API_URL}/categories`);
+  return respone.json();
+}
+
+
+export async function getOneCategory() {
+  const respone = await fetch(`${API_URL}/categories/1`);
+  return respone.json();
+}
+
+
+export async function createCategory(category) {
+  const respone = await fetch(`${API_URL}/categories`, {
+    method: 'POST',
+    body: JSON.stringify(category),
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${localStorage.token}`,
+    },
+  });
+  return respone.json();
 }
