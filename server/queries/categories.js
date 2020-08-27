@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const db = require('../db');
 const { insert_into_table_validate } = require('./index');
+const { table } = require('../db');
 
 
 const table_name = 'category';
@@ -24,6 +25,9 @@ module.exports = {
     },
     getAll(){
         return db(table_name).select();
+    },
+    delete(id){
+        return db(table_name).where('id', id).del();
     }
 
 };

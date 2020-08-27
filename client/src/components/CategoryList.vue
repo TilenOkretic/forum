@@ -1,19 +1,45 @@
 <template>
-    <div class="list-group">
-      <a v-for="category in categories"
-        :key="category.id"
-        :href="`#/category/${category.id}`"
+  <div>
+    <div v-for="category in categories" :key="category.id" class="list-group">
+      <a :href="`#/category/${category.id}`"
         class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{category.title}}</h5>
         </div>
         <p class="mb-1">{{category.description}}</p>
       </a>
+      <i id="del_button"
+      v-if="user && (JSON.parse(user).role_id == 1 || JSON.parse(user).role_id == 3)"
+      class='ml-1 mt-1 mb-1 material-icons' style="cursor:pointer;" href="">delete</i>
     </div>
+  </div>
 </template>
 
 <script>
-export default {
+
+import { mapState } from 'vuex';
+  import { API_URL } from '../API';
+
+  export default {
     props: ['categories'],
-};
+    updated() {
+      const del = document.getElementsByTagName('i');
+      del.forEach((elm) => {
+        elm.addEventListener('click', async () => {
+          const id = elm.parentElement.children[0].href.split('/')[elm.parentElement.children[0].href.split('/').length - 1];
+          const data = await fetch(`${API_URL}/categories/delete/${id}`, {
+            method: 'POST',
+            headers: {
+              authorization: `Bearer ${localStorage.token}`,
+            },
+          });
+          const result = await data.json();
+          console.log(result);
+          this.$router.go();
+        });
+      });
+    },
+    computed: mapState(['user']),
+  };
+
 </script>

@@ -2,6 +2,7 @@
 
 <template>
   <div id="app">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <app-nav></app-nav>
     <router-view class="container" />
   </div>

@@ -5,19 +5,14 @@ if (window.location.hostname === 'localhost') {
 
 const API_URL = `${BASE_URL}/api/v1`;
 
+export { API_URL };
+
 /* eslint-disable import/prefer-default-export */
 
 export async function getAllCategories() {
   const respone = await fetch(`${API_URL}/categories`);
   return respone.json();
 }
-
-
-export async function getOneCategory() {
-  const respone = await fetch(`${API_URL}/categories/1`);
-  return respone.json();
-}
-
 
 export async function createCategory(category) {
   const respone = await fetch(`${API_URL}/categories`, {

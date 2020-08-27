@@ -27,6 +27,15 @@ router.post('/', checkAuthHeaderSetUserUnAuthorized, isAdmin, async (req, res, n
     }
 });
 
+router.post('/delete/:id', checkAuthHeaderSetUserUnAuthorized, isAdmin, async (req, res, next) => {
+    try {
+        const result = await categories.delete(req.params.id);
+        res.json(result);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.get('/:id', async (req, res, next) => {
     try {
         const category = await categories.getByID(req.params.id);
