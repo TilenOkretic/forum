@@ -24,6 +24,9 @@
         <li class="nav-item">
           <a class="nav-link" :href="getLoginURL">CHANGE USER</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" @click="logout">LOG OUT</a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -35,6 +38,12 @@
   } from 'vuex';
 
   export default {
+    methods: {
+      logout() {
+        window.localStorage.token = '';
+        this.$router.go();
+      },
+    },
     computed: {
       ...mapState(['user']),
       getLoginURL() {

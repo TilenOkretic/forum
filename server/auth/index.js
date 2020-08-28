@@ -7,7 +7,7 @@ const {
 
 const router = express.Router();
 
-router.get('isAdmin', async (req, res) => {
+router.get('/isAdmin', async (req, res) => {
     if (req.user) {
         if (req.user.role_id === 1) {
             res.json({

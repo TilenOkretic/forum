@@ -25,3 +25,4 @@ export async function createCategory(category) {
   });
   return respone.json();
 }
+

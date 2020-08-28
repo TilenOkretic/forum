@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -11,7 +12,6 @@ const {
 const cors = require('cors');
 const passport = require('passport');
 
-require('dotenv').config();
 const auth = require('./auth');
 
 const app = express();
@@ -32,7 +32,7 @@ app.use(checkAuthHeaderSetUser);
 
 app.get('/', (req, res) => {
     res.json({
-        message: "Hello lad!"
+        message: "Hello lad!  node env:" + process.env.NODE_ENV + "   token:" + process.env.TOKEN_SECRET 
     })
 });
 
