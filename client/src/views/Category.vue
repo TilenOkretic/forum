@@ -19,6 +19,8 @@
 import {
     mapState
   } from 'vuex';
+
+import { API_URL } from '../API';
   
   export default {
     data: () => ({
@@ -68,7 +70,7 @@ import {
     },
     async mounted() {
       const id = `${this.$route.params.id}`;
-      const data = await fetch(`http://localhost:3000/api/v1/categories/${id}`);
+      const data = await fetch(`${API_URL}/categories/${id}`);
       const res = await data.json();
       this.title = res.title;
       this.description = res.description;
