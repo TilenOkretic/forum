@@ -31,6 +31,15 @@ router.post('/', checkAuthHeaderSetUserUnAuthorized, async (req, res, next) => {
     }
 });
 
+router.get('/delete/:id', checkAuthHeaderSetUserUnAuthorized, async (req, res, next) => {
+    try {
+        const topic = await topics.deleteTopic(req.params.id);
+        res.json(topic);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post('/update/:id', async (req, res, next) => {
     console.log(req.params.id);
     try {
