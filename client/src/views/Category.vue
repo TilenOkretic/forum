@@ -1,9 +1,9 @@
 <template>
   <section>
-    <div id="test" class="jumbotron mt-4">
+    <div id="test" class="jumbotron pt-1 pb-1 mt-4">
       <h1 class="display-3">{{this.title}}</h1>
       <p class="lead">{{this.description}}</p>
-      <hr class="my-2">
+      <hr class="my-4">
       <img style="width: 480px" v-if="this.img_url != ''" :src="this.img_url" />
       <p class="lead">
         <button v-if="user" id="new_topic" @click="showForm($route.params.id, $router, user)"
