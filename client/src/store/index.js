@@ -30,6 +30,9 @@ export default new Vuex.Store({
     isLoggedIn(state) {
       return state.user ? true : false;
     },
+    async getUserFromID(id) {
+
+    },
   },
   actions: {
     login({

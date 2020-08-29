@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Forum from '../views/Forum.vue';
 import Category from '../views/Category.vue';
+import Topic from '../views/Topic.vue';
 import LoginToken from '../views/LoginToken.vue';
 import Admin from '../views/Admin.vue';
 
@@ -29,6 +30,11 @@ const routes = [{
     path: '/forum',
     name: 'forum',
     component: Forum,
+  },
+  {
+    path: '/topic/:id',
+    name: 'topic',
+    component: Topic,
   },
   {
     path: '/admin',

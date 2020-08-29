@@ -11,20 +11,20 @@
       </p>
     </div>
     <div v-for="topic of topics" :key="topic.id" :id="topic.id"
-      class="card text-white bg-primary mb-3" style="cursor: pointer; max-width: 100%;">
-      <div class="card-header">
+      class="card test text-white bg-primary mb-3" style="cursor: pointer; max-width: 100%;">
+      <div class="card-header" @click="focusTopic">
         <div v-if="user && (JSON.parse(user).role_id == 1 || JSON.parse(user).id == topic.user_id)"
           class="text-right">
           <button @click="edit" type="button" class="btn-md btn-success">EDIT</button>
-          <i id="del_button" @click="removeTopic"
-            class='material-icons'
-            style="font-size: 30px; cursor:pointer; transform: translate(0,7px);"
-            href="">delete</i>
+          <i id="del_button" @click="removeTopic" class='material-icons'
+            style="font-size: 30px; cursor:pointer; transform: translate(0,7px);" href="">delete</i>
         </div>
-        <h3 :id="'title' + topic.id">{{topic.title}}</h3>
+        <div class="text-left">
+          <h3 :id="'title_' + topic.id">{{topic.title}}</h3>
+        </div>
       </div>
       <div class="card-body">
-        <p class="card-text" :id="'description' + topic.id">{{topic.discription}}</p>
+        <p class="card-text" :id="'description' + topic.id">{{topic.description}}</p>
       </div>
     </div>
   </section>
@@ -38,7 +38,8 @@
   } from 'vuex';
 
   import {
-    API_URL
+    API_URL,
+    BASE_URL
   } from '../API';
 
   export default {
@@ -54,21 +55,35 @@
       focus: ''
     }),
     methods: {
-      async removeTopic(data){
-          const topic_id = data.srcElement.parentElement.parentElement.parentElement.id;
-          const post = await fetch(`${API_URL}/topics/delete/${topic_id}`,{
-            method: 'GET',
-            headers: {
-                authorization: `Bearer ${localStorage.token}`,
-            }
-          });
-          const res = await post.json();
-          console.log(res);
-          this.$router.go();
+      focusTopic(data) {
+
+        let topic_id = data.srcElement.parentElement.parentElement.id;
+        if (data.srcElement.tagName == 'BUTTON' && data.srcElement.tagName == 'i') {
+          return;
+        } 
+
+        if (data.srcElement.tagName == 'H3') {
+          topic_id = data.srcElement.parentElement.parentElement.parentElement.id;
+        }
+
+
+        if(topic_id != '' && this.focus == ''){this.$router.push(`/topic/${topic_id}`);}
+      },
+      async removeTopic(data) {
+        const topic_id = data.srcElement.parentElement.parentElement.parentElement.id;
+        const post = await fetch(`${API_URL}/topics/delete/${topic_id}`, {
+          method: 'GET',
+          headers: {
+            authorization: `Bearer ${localStorage.token}`,
+          }
+        });
+        const res = await post.json();
+        console.log(res);
+        this.$router.go();
       },
       async edit(data) {
         const main_id = data.srcElement.parentElement.parentElement.parentElement.id;
-        const title = document.querySelector(`#title${main_id}`);
+        const title = document.querySelector(`#title_${main_id}`);
         const description = document.querySelector(`#description${main_id}`);
         if (this.focus == '') {
           title.innerHTML = `
@@ -84,7 +99,7 @@
                     `;
           data.srcElement.innerHTML = "update";
           this.focus = main_id;
-        } else if (this.focus == main_id){
+        } else if (this.focus == main_id) {
           const title_edit = document.querySelector('#updateTitle');
           const description_edit = document.querySelector('#updateDescription');
 
@@ -96,7 +111,7 @@
             },
             body: JSON.stringify({
               title: title_edit.value,
-              discription: description_edit.value,
+              description: description_edit.value,
             }),
           });
 
@@ -124,7 +139,7 @@
               method: 'POST',
               body: JSON.stringify({
                 title: document.querySelector('#title').value,
-                discription: document.querySelector('#description').value,
+                description: document.querySelector('#description').value,
                 category_id: id,
                 user_id: JSON.parse(user).id
               }),
@@ -175,8 +190,10 @@
       if (new_topic) {
         document.querySelector('#new_topic').style.display = user ? "" : "none";
       }
-      const topic_data = await fetch(`${API_URL}/topics/${id}`);
-      this.topics = await topic_data.json();
+      const topic_data = await fetch(`${API_URL}/topics/category/${id}`);
+      const result = await topic_data.json();
+      console.log(result);
+      this.topics = result;
 
     },
     computed: mapState(['categories', 'user']),

@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 let BASE_URL = 'https://t-forum-serverside.herokuapp.com';
 if (window.location.hostname === 'localhost') {
   BASE_URL = 'http://localhost:3000';
@@ -5,7 +7,7 @@ if (window.location.hostname === 'localhost') {
 
 const API_URL = `${BASE_URL}/api/v1`;
 
-export { API_URL };
+export { API_URL, BASE_URL };
 
 /* eslint-disable import/prefer-default-export */
 

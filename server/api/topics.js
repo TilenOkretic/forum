@@ -21,10 +21,18 @@ router.get('/', async (req, res, next) => {
     }
 });
 
+router.get('/:id', async (req, res, next) => {
+    try {
+        const all = await topics.getByID(req.params.id);
+        res.json(all);
+    } catch (error) {
+        next(error);
+    }
+});
+
 router.post('/', checkAuthHeaderSetUserUnAuthorized, async (req, res, next) => {
     try {
         const topic = await topics.insert(req.body);
-        console.log("the topics is " + topic);
         res.json(topic);
     } catch (error) {
         next(error);
@@ -50,7 +58,7 @@ router.post('/update/:id', async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/category/:id', async (req, res, next) => {
     try {
         const topic = await topics.getByCategoryID(req.params.id);
         res.json(topic);

@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.post('/', checkAuthHeaderSetUserUnAuthorized, isAdmin, async (req, res, next) => {
+router.post('/', async (req, res, next) => {
     try {
         const category = await categories.insert(req.body);
         res.json(category);

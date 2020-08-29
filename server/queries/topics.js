@@ -8,7 +8,7 @@ const table_name = 'topic';
 
 const schema = Joi.object().keys({
     title: Joi.string().required(),
-    discription: Joi.string().required(),
+    description: Joi.string().required(),
     category_id: Joi.number().required(),
     user_id: Joi.number().required()
 });
@@ -16,6 +16,9 @@ const schema = Joi.object().keys({
 module.exports = {
     getAll(){
         return db(table_name).select();
+    },
+    getByID(id){
+        return db(table_name).where('id', id);
     },
     getByCategoryID(id){
         return db(table_name).where('category_id', id);
