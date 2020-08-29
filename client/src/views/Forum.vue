@@ -46,9 +46,6 @@
               img_url: '',
         },
     }),
-    mounted() {
-      console.log('HELLO');
-    },
     computed: {
       ...mapState(['user', 'categories']),
     },
