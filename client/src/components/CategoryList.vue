@@ -29,18 +29,21 @@
       click() {
         const del = document.getElementsByTagName('i');
         del.forEach(async (elm) => {
-          console.log(elm);
-          const id = elm.parentElement.children[0].href.split('/')[elm.parentElement.children[0]
-            .href.split('/').length - 1];
-          const data = await fetch(`${API_URL}/categories/delete/${id}`, {
-            method: 'POST',
-            headers: {
-              authorization: `Bearer ${localStorage.token}`,
-            },
-          });
-          const result = await data.json();
-          console.log(result);
-          this.$router.go();
+            elm.addEventListener('click', async () => {
+              const id = elm.parentElement.children[0].href.split('/')[elm.parentElement
+                .children[0]
+                .href.split('/').length - 1];
+
+              const data = await fetch(`${API_URL}/categories/delete/${id}`, {
+                method: 'POST',
+                headers: {
+                  authorization: `Bearer ${localStorage.token}`,
+                },
+              });
+              const result = await data.json();
+              console.log(result);
+              this.$router.go();
+            });
         });
       },
     },

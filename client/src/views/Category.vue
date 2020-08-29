@@ -10,11 +10,21 @@
           class="btn btn-info">Add A New Topic</button>
       </p>
     </div>
-    <div @click="edit" v-for="topic of topics" :key="topic.id" :id="topic.id"
+    <div v-for="topic of topics" :key="topic.id" :id="topic.id"
       class="card text-white bg-primary mb-3" style="cursor: pointer; max-width: 100%;">
-      <div class="card-header">{{topic.title}}</div>
+      <div class="card-header">
+        <div v-if="user && (JSON.parse(user).role_id == 1 || JSON.parse(user).id == topic.user_id)"
+          class="text-right">
+          <button @click="edit" type="button" class="btn-md btn-success">EDIT</button>
+          <i id="del_button" @click="removeTopic"
+            class='material-icons'
+            style="font-size: 30px; cursor:pointer; transform: translate(0,7px);"
+            href="">delete</i>
+        </div>
+        <h3 id="title">{{topic.title}}</h3>
+      </div>
       <div class="card-body">
-        <p class="card-text">{{topic.discription}}</p>
+        <p class="card-text" id="description">{{topic.discription}}</p>
       </div>
     </div>
   </section>
@@ -44,48 +54,60 @@
       focus: false
     }),
     methods: {
-      edit(data) {
+      async removeTopic(data){
+          const topic_id = data.srcElement.parentElement.parentElement.parentElement.id;
+          const post = await fetch(`${API_URL}/topics/delete/${topic_id}`,{
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${localStorage.token}`,
+            }
+          });
+          const res = await post.json();
+          console.log(res);
+          this.$router.go();
+      },
+      async edit(data) {
+        const title = document.querySelector('#title');
+        const description = document.querySelector('#description');
         if (!this.focus) {
-          data.srcElement.innerHTML = `
+          title.innerHTML = `
                     <div>
-                    <input type="text" id="updateValue" style="background:rgb(255,255,255,0.7); color:black; border: none;" value="${data.srcElement.innerHTML}"> </input> 
-                    <button type="submit" id="updateTopic" class="h-50btn btn-success"> EDIT </button>
+                    <input type="text" id="updateTitle" style="background:rgb(255,255,255,0.7); color:black; border: none;" value="${title.innerHTML}"> </input> 
                     </div>
                     `;
-          document.querySelector('#updateTopic').addEventListener('click', async () => {
-            let post = null;
-            if (data.srcElement.className == 'card-header') {
-              const elm_id = data.srcElement.parentElement.id;
-              post = await fetch(`${API_URL}/topics/update/${elm_id}`, {
-                method: 'POST',
-                headers: {
-                  'content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                  title: document.querySelector('#updateValue').value
-                })
-              });
-              const res = await post.json();
-              data.srcElement.innerHTML = res.title;
-              this.focus = false;
-            } else if (data.srcElement.className == 'card-text') {
-              const elm_id = data.srcElement.parentElement.parentElement.id;
-              post = await fetch(`${API_URL}/topics/update/${elm_id}`, {
-                method: 'POST',
-                headers: {
-                  'content-type': 'application/json'
-                },
-                body: JSON.stringify({
-                  discription: document.querySelector('#updateValue').value
-                })
-              });
-              const res = await post.json();
-              data.srcElement.innerHTML = res.discription;
-              this.focus = false;
-            }
 
-          });
+          description.innerHTML = `
+                    <div>
+                    <input type="text" id="updateDescription" style="background:rgb(255,255,255,0.7); color:black; border: none;" value="${description.innerHTML}"> </input> 
+                    </div>
+                    `;
+          data.srcElement.innerHTML = "update";
           this.focus = true;
+        } else {
+          const title_edit = document.querySelector('#updateTitle');
+          const description_edit = document.querySelector('#updateDescription');
+
+          const id = data.srcElement.parentElement.parentElement.parentElement.id;
+          const post = await fetch(`${API_URL}/topics/update/${id}`, {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({
+              title: title_edit.value,
+              discription: description_edit.value,
+            }),
+          });
+
+          const respone = await post.json();
+          console.log(respone);
+
+
+          title.innerHTML = title_edit.value;
+          description.innerHTML = description_edit.value;
+
+          data.srcElement.innerHTML = "edit";
+          this.focus = false;
         }
       },
       showForm: (id, router, user) => {
@@ -123,25 +145,17 @@
           <div id="test" class="jumbotron alert-primary mt-4">
           <h1 class="text-warning text-monospace text-uppercase" style="font-size: 50px">Create A New Topic</h1>
           <div class="form-group">
-                <h4 for="title" class="text-light">Tile</h4>
+                <h4 for="title" class="text-monospace text-light">Title</h4>
                 <input type="text"
-                       v-model="newCategory.title"
-                       class="form-control" id="title" placeholder="My First Category" required />
+                       class="form-control" id="title" placeholder="My First Topic" required />
             </div>
             <div class="form-group">
-                <h4 for="description" class="text-light">Description</h4>
+                <h4 for="description" class="text-monospace text-light">Topic Description</h4>
                 <textarea class="form-control" id="description"
-                v-model="newCategory.description"
-                placeholder="This is my first category!"
+                placeholder="This is my first topic!"
                 required rows="5"></textarea>
             </div>
-            <div class="form-group">
-                <h4 for="img_url" class="text-light">Image URL</h4>
-                <input type="text"
-                v-model="newCategory.img_url"
-                class="form-control" id="img_url" placeholder="https://example.com/image.jpg" />
-            </div>
-            <button type="submit" class="btn btn-success">Add Category</button>
+            <button type="submit" class="btn btn-warning">Add Topic</button>
             </div>
         `
           document.querySelector('#test').appendChild(form);
@@ -165,13 +179,9 @@
       }
       const topic_data = await fetch(`${API_URL}/topics/${id}`);
       this.topics = await topic_data.json();
+
     },
-    computed: {
-      ...mapState(['categories', 'user']),
-      currentRouteName() {
-        return this.$route.name;
-      }
-    },
+    computed: mapState(['categories', 'user']),
   };
 
 </script>

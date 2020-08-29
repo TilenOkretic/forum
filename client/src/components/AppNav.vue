@@ -40,7 +40,7 @@
   export default {
     methods: {
       logout() {
-        window.localStorage.token = '';
+        window.localStorage.removeItem('token');
         this.$router.go();
       },
     },
