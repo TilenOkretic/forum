@@ -136,7 +136,7 @@
             document.querySelector('#test').removeChild(document.querySelector('#TF'));
             document.querySelector('#new_topic').style.display = "";
 
-            router.go();
+            //router.go();
 
             return respone.json();
 
