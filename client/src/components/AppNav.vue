@@ -16,17 +16,18 @@
       <div v-if="user" class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
           <span class="navbar-text mr-3">
-            <a
-            class="nav-link w-50 pl-0 pr-0 pt-0 pb-0 mb-0 mt-0"
-            style="border:none;"
-            href="#/admin">{{JSON.parse(user).name}}</a>
+            <a class="nav-link w-50 pl-0 pr-0 pt-0 pb-0 mb-0 mt-0"
+            style="border:none; cursor: pointer;"
+              href="#/admin">{{JSON.parse(user).name}}</a>
             <hr class="mb-0 mt-0">
-            <p1 class="mb-0 mt-0">Role: {{JSON.parse(user).role_id == 1 ? "ADMINISTRATOR"
-          : JSON.parse(user).role_id == 2 ? "USER" : "MODERATOR"}}</p1>
+            <p class="mb-0 mt-0">Role:
+            {{JSON.parse(user).role_id == 1 ? "ADMINISTRATOR" : JSON.parse(user).role_id == 2 ?
+            "USER" : "MODERATOR"}}
+            </p>
             <hr class="mb-0 mt-0">
             <a class="nav-link w-50 pl-0 pr-0 pt-0 pb-0"
-            style="border:none;"
-            @click="logout">LOG OUT</a>
+            style="cursor: pointer;border:none;" @click="logout">LOG
+              OUT</a>
           </span>
         </ul>
       </div>

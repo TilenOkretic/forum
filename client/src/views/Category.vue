@@ -21,10 +21,10 @@
             style="font-size: 30px; cursor:pointer; transform: translate(0,7px);"
             href="">delete</i>
         </div>
-        <h3 id="title">{{topic.title}}</h3>
+        <h3 :id="'title' + topic.id">{{topic.title}}</h3>
       </div>
       <div class="card-body">
-        <p class="card-text" id="description">{{topic.discription}}</p>
+        <p class="card-text" :id="'description' + topic.id">{{topic.discription}}</p>
       </div>
     </div>
   </section>
@@ -51,7 +51,7 @@
         discription: '',
       },
       topics: [],
-      focus: false
+      focus: ''
     }),
     methods: {
       async removeTopic(data){
@@ -67,9 +67,10 @@
           this.$router.go();
       },
       async edit(data) {
-        const title = document.querySelector('#title');
-        const description = document.querySelector('#description');
-        if (!this.focus) {
+        const main_id = data.srcElement.parentElement.parentElement.parentElement.id;
+        const title = document.querySelector(`#title${main_id}`);
+        const description = document.querySelector(`#description${main_id}`);
+        if (this.focus == '') {
           title.innerHTML = `
                     <div>
                     <input type="text" id="updateTitle" style="background:rgb(255,255,255,0.7); color:black; border: none;" value="${title.innerHTML}"> </input> 
@@ -82,8 +83,8 @@
                     </div>
                     `;
           data.srcElement.innerHTML = "update";
-          this.focus = true;
-        } else {
+          this.focus = main_id;
+        } else if (this.focus == main_id){
           const title_edit = document.querySelector('#updateTitle');
           const description_edit = document.querySelector('#updateDescription');
 
@@ -107,7 +108,7 @@
           description.innerHTML = description_edit.value;
 
           data.srcElement.innerHTML = "edit";
-          this.focus = false;
+          this.focus = '';
         }
       },
       showForm: (id, router, user) => {
