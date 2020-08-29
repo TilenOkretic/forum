@@ -136,10 +136,7 @@
             document.querySelector('#test').removeChild(document.querySelector('#TF'));
             document.querySelector('#new_topic').style.display = "";
 
-            //router.go();
-
-            return respone.json();
-
+            router.go();
           };
           form.innerHTML = `
           <div id="test" class="jumbotron alert-primary mt-4">
