@@ -3,7 +3,7 @@ node_modules
 dist
 client/dist
 
-server/passport/google.js
+server/passport
 
 
 # local env files

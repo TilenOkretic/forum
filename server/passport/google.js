@@ -8,8 +8,8 @@ const {
 } = require('../auth/utils');
 
 passport.use(new GoogleStrategy({
-        clientID: '497897918115-3rfuobm87gkr1888n5jknfmn4mbo3oh4.apps.googleusercontent.com',
-        clientSecret: 'A84GotlBCXZVrmYujbxefB3e',
+        clientID: GOOGLE_CLIENT_ID,
+        clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: "/auth/google/callback"
     },
     async (accessToken, refreshToken, profile, cb) => {
