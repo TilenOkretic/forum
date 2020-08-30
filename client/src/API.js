@@ -16,6 +16,11 @@ export async function getAllCategories() {
   return respone.json();
 }
 
+export async function getUserFromID(id) {
+  const data = await fetch(`${API_URL}/users/${id}`);
+  return await data.json();
+}
+
 export async function createCategory(category) {
   const respone = await fetch(`${API_URL}/categories`, {
     method: 'POST',

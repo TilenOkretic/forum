@@ -2,7 +2,7 @@
 
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { getAllCategories, createCategory } from '../API';
+import { getAllCategories, createCategory, getUserFromID } from '../API';
 
 Vue.use(Vuex);
 
@@ -29,9 +29,6 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn(state) {
       return state.user ? true : false;
-    },
-    async getUserFromID(id) {
-
     },
   },
   actions: {
