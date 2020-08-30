@@ -23,6 +23,9 @@ module.exports = {
     async findAdmins(){
         return db(table_name).where('role_id', 1);
     },
+    getByID(id){
+        return db(table_name).where('id', id).first();
+    },
     findByEmail(email) {
         return db(table_name).where('email', email).first();
     },

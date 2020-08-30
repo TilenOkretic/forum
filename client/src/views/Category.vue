@@ -1,10 +1,10 @@
 <template>
   <section>
-    <div id="test" class="jumbotron pt-1 pb-1 mt-4">
+    <div id="test" class="jumbotron pt-1 pb-1 mt-4" style="word-wrap: break-word">
       <h1 class="display-3">{{this.title}}</h1>
-      <p class="lead">{{this.description}}</p>
+      <p class="lead" style="max-width:100%;">{{this.description}}</p>
       <hr class="my-4">
-      <img style="width: 480px" v-if="this.img_url != ''" :src="this.img_url" />
+      <img style="max-width:100%; width: 480px" v-if="this.img_url != ''" :src="this.img_url" />
       <p class="lead">
         <button v-if="user" id="new_topic" @click="showForm($route.params.id, $router, user)"
           class="btn btn-info">Add A New Topic</button>
