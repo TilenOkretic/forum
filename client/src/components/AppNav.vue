@@ -51,8 +51,8 @@
     computed: {
       ...mapState(['user']),
       getLoginURL() {
-        if (window.location.hostname === 'localhost') {
-          return 'http://localhost:3000/auth/google';
+        if (window.location.hostname === '192.168.1.11') {
+          return 'http://192.168.1.11:3000/auth/google';
         }
         return 'https://t-forum-serverside.herokuapp.com/auth/google';
       },
