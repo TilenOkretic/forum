@@ -2,9 +2,15 @@
 
 module.exports = {
 
+  
   development: {
-    client: 'pg',
-    connection: 'postgres://Shadow:admin@localhost:5432/myforum'
+    client: 'postgresql',
+    connection: {
+      host:'192.168.1.11',
+      database: 'myforum',
+      user: 'ubuntu',
+      password: 'admin'
+    }
   },
   production: {
     client: 'pg',
